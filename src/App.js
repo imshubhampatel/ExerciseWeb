@@ -1,35 +1,34 @@
-import React from 'react'
-import "./styles.css"
-import userData from "./userData"
-import CartItem from './CartItem'
+import "./styles.css";
+import Product from "./components/Product";
+import Cart from "./components/Cart";
+import Wishlist from "./components/Wishlist";
+import { Link, Route, Switch, useHistory } from "react-router-dom";
+function Forbidden() {
+  return <h1>Nothing like that existss</h1>;
+}
 
-
-
-
-  export default function App() {
-
-    const AddToCartHandler = (product) => {
-      console.log("Add to cart", product);
-
-    }
-    const wishListHanler = (product) => {
-      console.log("from wishlist", product)
-    }
-
-    return (
-      <div className="container">
-        { userData.map((item) => {
-          return (
-            <CartItem
-              key={item.id}
-              product={item}
-              AddToCartHandler={AddToCartHandler}
-              wishListHanler={wishListHanler}
-            />
-          )
-        })
-        }
-      </div>
-    )
-
-  }
+export default function App() {
+  let navigate = useHistory();
+  return (
+    <div className="App">
+      <nav>
+        <Link to="/">Products</Link> | <Link to="/cart">Cart</Link> |{" "}
+        <Link to="/wishlist">Wishlist</Link>
+      </nav>
+      <Switch>
+        <Route exact path="/">
+          <Product />
+        </Route>
+        <Route path="/cart">
+          <Cart />
+        </Route>
+        <Route path="/wishlist">
+          <Wishlist />
+        </Route>
+        <Route path="/*">
+          <Forbidden />
+        </Route>
+      </Switch>
+    </div>
+  );
+}
